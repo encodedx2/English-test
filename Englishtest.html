@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>English Test</title></head>
+<body><script>
+(function(){
+var LISTEN=[
+["Good morning, how can I help you today?","Thank you for calling our support line.","May I have your full name, please?","Let me check your account right away.","I understand how frustrating that must be.","Could you please hold for a moment?","Your order will arrive within three days.","I apologize for the inconvenience.","Is there anything else I can do for you?","I will send you a confirmation email.","Thank you for your patience and understanding.","Have a wonderful day and take care."],
+["I would like to change my current plan.","The monthly price includes taxes and fees.","Your contract ends in six months.","You can cancel at any time without penalty.","I see an extra charge on your last bill.","We will refund the amount in five days.","Please verify your phone number for security.","The new phone is available in three colors.","Our technician will visit you tomorrow morning.","I have updated your address in the system.","Would you like to upgrade your internet speed?","Your payment was received on Monday."],
+["Can you explain this charge to me, please?","I am calling about a problem with my service.","The signal has been very weak this week.","I was told the offer would last a year.","Let me transfer you to the billing department.","I have noted your complaint on the file.","You will receive a call back within a day.","This promotion is only for new customers.","I am sorry, but that item is out of stock.","We value your feedback and your loyalty.","Please restart your device and try again.","I will escalate this case to my supervisor."],
+["Our return policy allows thirty days for refunds.","The warranty covers any manufacturing defects.","You will need to send the receipt by email.","I can offer you a discount on your next bill.","The late fee will be removed from your account.","Your request has been successfully processed.","I recommend the unlimited data package for you.","We never share your personal information.","The installation is free with a two year contract.","Please let me know if the problem continues.","It was a pleasure speaking with you today.","Thank you for choosing our company."]];
+
+// first option is the correct one (shuffled at runtime)
+var GRAM=[
+["She ___ to work every day.|goes|go|going|gone","They ___ playing football now.|are|is|was|be","I have ___ this movie before.|seen|saw|see|seeing","He ___ like coffee in the morning.|doesn't|don't|isn't|not","We ___ dinner when you called.|were having|have|are having|had had","If it rains, we ___ at home.|will stay|stayed|would stayed|stay will","She is ___ than her brother.|taller|tallest|more tall|tall","There ___ many people at the party.|were|was|is|be","I ___ English for five years.|have studied|study|am studying|studied","He asked me where I ___.|lived|live|do live|am living","This is the ___ book I have read.|best|good|better|most good","You ___ smoke in the hospital.|must not|don't must|not must|mustn't to"],
+["My phone ___ fixed yesterday.|was|is|were|has","She said she ___ come tomorrow.|would|will|can|shall","I'm looking forward ___ you.|to seeing|to see|seeing|see","Neither John ___ Mary came.|nor|or|and|but","He speaks English very ___.|well|good|goodly|best","The bill ___ paid by the customer.|was|were|have|do","I wish I ___ more time.|had|have|has|would have","___ you help me, please?|Could|Do|Are|Have","She has lived here ___ 2010.|since|for|from|during","They ___ the report by Friday.|will have finished|will finish|finish|are finish","Do you mind ___ the window?|opening|open|to opened|opens","He is interested ___ music.|in|on|at|of"],
+["I ___ my keys. I can't find them.|have lost|lose|losing|am lost","If I ___ you, I would call them.|were|am|was be|will be","The man ___ called you is here.|who|which|whose|what","We ___ to the store when it began to rain.|were walking|walk|are walk|have walk","She ___ her homework yet.|hasn't finished|didn't finished|doesn't finish|not finished","I'd rather ___ at home tonight.|stay|to stay|staying|stayed","The ___ of the plan is simple.|idea|ideas|idea's of|ideaing","Few people ___ the answer.|know|knows|knowing|to know","He ___ drive when he was ten.|could|can|may|must to","It's ___ interesting movie.|an|a|the|some","I enjoy ___ new languages.|learning|learn|to learned|learns","Not only ___ late, but he forgot the file.|was he|he was|he is|is he"],
+["Please ___ me your account number.|give|gives|giving|gave to","The agent ___ the problem already.|has solved|solve|solving|have solved","I ___ speak to the manager now.|would like to|like to|am liking|would liking","You should ___ the contract first.|read|reading|to reading|reads","How ___ does the plan cost?|much|many|long|few","He apologized ___ the delay.|for|to|of|with","The refund ___ in three days.|will arrive|arrives will|arrive|arrived will","Can I ___ you a question?|ask|say|tell|speak","We ___ received your payment.|have|has|are|did been","___ is your name?|What|Who|Where|Which of","I am ___ a new phone plan.|looking for|looking|looking at to|seeing for","She ___ in customer service since May.|has worked|works|worked|is work"]];
+
+var TYPE=[
+"Good customer service starts with listening. When a client calls with a problem, stay calm and let them explain everything before you reply. Use a friendly voice, repeat the main issue to show understanding, and offer a clear solution step by step.",
+"Typing fast and without mistakes is a valuable skill in any office. Practice every day, keep your hands relaxed, and look at the screen instead of the keys. Speed will come naturally when accuracy becomes a habit that you repeat often.",
+"Every phone bill contains a monthly plan, taxes, fees, and sometimes extra services. If a customer sees a charge they do not recognize, check the details first. Explain each line patiently, and correct any error as quickly as you can.",
+"A good agent always follows company policy while showing empathy. Apologize when the company makes a mistake, confirm the next steps, and never promise something you cannot deliver. Clear words build trust and keep customers loyal for years."];
+
+// [customer msg, good reply, customer reaction to good, bad reply, customer reaction to bad]
+var PRAC=[
+{t:"Phone upgrade & contract",p:"Phone: X200 costs $25/month for 24 months (contract). Early cancellation fee: $200, reduced by $8 each month completed. Free 14-day return if unused and in original box. Price includes no taxes; taxes add about $3/month.",
+s:[["Hi, I want the X200 phone. How much is it per month?","The X200 is $25 a month for 24 months, plus about $3 in taxes.","Okay, that's clear. And how long is the contract?","The X200 is only $10 a month, taxes included, no contract.","What? That doesn't match the website. I'm confused..."],
+["How long is the contract? Can I cancel early?","It is 24 months. If you cancel early there is a $200 fee, reduced $8 each month.","Fair enough. And if I don't like the phone?","You can cancel anytime for free, no questions asked.","Really? A friend paid a fee. I don't trust that."],
+["What if I don't like it after I get it?","You can return it free within 14 days if unused and in its original box.","Perfect, that's what I needed. I'll take it!","Returns are accepted only within 2 days and with a fee.","That's not fair. I want to speak to a supervisor."]]},
+{t:"Refund request",p:"Refunds: full refund within 30 days with receipt. After 30 days: store credit only. Refunds are paid to the original payment method in 5-7 business days. Opened software and gift cards are not refundable.",
+s:[["I bought a tablet 10 days ago and I want my money back.","I can help. Since it's within 30 days, you qualify for a full refund with your receipt.","Great, I have the receipt here. How will I get the money?","Sorry, we don't do refunds on tablets, only repairs.","But I read you offer refunds! This is unacceptable."],
+["How will I get my money back and how long does it take?","It goes back to your original payment method in 5-7 business days.","Okay, good. What about my gift card from the same order?","We will send a check in 30 days to your home.","A check? That's strange. Nobody told me that."],
+["Can I also return the gift card that came with it?","I'm sorry, gift cards are not refundable, but the tablet refund is fully approved.","I understand. Thanks for being honest and helping me.","Yes, of course, I'll refund everything including the gift card.","Wow, great! ... wait, my manager said it's not possible. Confusing."]]},
+{t:"Extra charge on phone bill",p:"Billing: Standard plan $40/month. Roaming is $5/day when abroad unless Travel Pack ($12/week) is active. Wrong charges are credited within 2 billing cycles after review. Disputes must be filed within 60 days of the bill date.",
+s:[["There's an extra $25 on my bill. What is it?","Let me check. It shows 5 days of roaming at $5 per day while you were abroad.","Oh, I did travel last week. I didn't know about that."," It's a random fee we add sometimes. I can't explain it.","That's ridiculous! You can't just charge me randomly!"],
+["Is there a way to avoid that next time?","Yes, the Travel Pack costs $12 a week and removes the daily roaming charge.","That's a better deal. Can I dispute this charge?","No, there is no way to avoid it. Everyone pays.","So I'm just stuck paying more? I'll leave your company."],
+["Can I dispute the charge?","You can. Disputes must be filed within 60 days, and credits are applied within 2 billing cycles.","Okay, please file it. Thanks for explaining everything clearly.","Disputes are only accepted within 7 days, and it's too late now.","Seven days? Nobody told me that! I'm very upset."]]},
+{t:"Internet service & price",p:"Internet: Basic 50 Mbps $30/month, Plus 200 Mbps $45/month, Max 500 Mbps $60/month. 12-month contract, free installation. Price lock for the whole contract. Cancel before 12 months: $100 fee. Speed guarantee: credit if below 80% for 3 days.",
+s:[["How much is the fast internet plan?","Our Max plan is 500 Mbps for $60 a month, with free installation.","Nice. Is the price going to go up later?","The price changes every month depending on demand.","That sounds unpredictable. Not good at all."],
+["Will the price change during the contract?","No, the price is locked for the whole 12-month contract.","Great, that's what I wanted. What if the speed is slow?","The price may rise after 3 months, but we will notify you.","Then why would I sign a contract? That's unfair."],
+["And if the speed is slower than promised?","If it stays below 80% for 3 days, you receive a credit on your bill.","Excellent. Please sign me up for the Max plan!","We never guarantee speed, so there is no credit.","No guarantee? I'm going with your competitor."]]}];
+
+var CONV=[
+{t:"Two coworkers: a deadline",l:[["A","Hi Mark, did you finish the sales report?"],["B","Almost, Anna. I still need the numbers from the marketing team."],["A","The manager wants it by Thursday at noon."],["B","I know. I'll call Lisa this afternoon and ask her to send them."],["A","Great. Can you also book the meeting room for Friday?"],["B","Sure. How many people are coming?"],["A","Six, including the client from Toronto."],["B","Okay, I'll book the big room on the second floor and order coffee."]],
+q:["Mark has completely finished the report.|False|True","What does Mark still need?|Numbers from the marketing team|A signature from the manager|A new computer|The client's address","When does the manager want the report?|Thursday at noon|Friday morning|Monday at noon|Thursday at night","Mark will call Lisa this afternoon.|True|False","What else does Anna ask Mark to do?|Book a meeting room|Order lunch|Call the client|Write an email","When is the meeting?|Friday|Thursday|Monday|Wednesday","How many people are coming?|Six|Four|Eight|Ten","The client is from Toronto.|True|False","Which room will Mark book?|The big room on the second floor|The small room downstairs|The conference hall|The manager's office","What will Mark order for the meeting?|Coffee|Sandwiches|Pizza|Cake"]},
+{t:"One speaker: a green routine",l:[["S","Hello everyone. Today I want to talk about my daily routine and how I try to protect the environment."],["S","I wake up at six and take a short shower to save water. Then I ride my bike to work instead of driving, which takes about thirty minutes."],["S","At the office I use a reusable bottle and I print only when it is really necessary."],["S","After work I go to the market to buy local vegetables. At home I separate plastic, paper, and glass for recycling."],["S","On weekends I plant trees with a volunteer group. Small actions can make a big difference."]],
+q:["What time does the speaker wake up?|Six|Seven|Five|Eight","The speaker takes a long bath.|False|True","How does the speaker go to work?|By bike|By car|By bus|On foot","How long does the trip take?|About thirty minutes|About ten minutes|One hour|Fifteen minutes","The speaker prints documents all the time.|False|True","What does the speaker use at the office?|A reusable bottle|Plastic cups|Paper cups|Nothing","Where does the speaker buy vegetables?|At the market|At a big chain store|Online|From a garden","Which materials does the speaker recycle?|Plastic, paper, and glass|Only plastic|Metal and wood|Only paper","The speaker plants trees on weekends.|True|False","What is the main message?|Small actions can make a big difference|Recycling is too hard|Driving is faster|Water is free"]},
+{t:"Job interview",l:[["A","Good morning, Sarah. Please tell me about your last job."],["B","I worked as a receptionist at a hotel for three years."],["A","What were your main tasks?"],["B","I answered calls, welcomed guests, and managed the bookings on the computer."],["A","Why do you want to leave?"],["B","I want a job with more responsibility and a chance to learn new skills."],["A","Can you start next month?"],["B","Yes, I can start on the first of November."]],
+q:["Sarah worked at a hotel.|True|False","What was Sarah's last job?|Receptionist|Cook|Driver|Teacher","How long did she work there?|Three years|Two years|Five years|Six months","Which task did she NOT mention?|Cleaning rooms|Answering calls|Welcoming guests|Managing bookings","Sarah managed bookings on paper only.|False|True","Why does she want to leave?|She wants more responsibility|The pay is too high|The hotel closed|She moved abroad","She wants to learn new skills.|True|False","When can she start?|November first|October first|December first|Next week","Who is asking the questions?|The interviewer|A customer|A friend|A neighbor","What is the purpose of the conversation?|A job interview|A phone sale|A hotel booking|A class"]},
+{t:"One speaker: a healthy lifestyle",l:[["S","Hi, my name is Daniel and I'd like to share how I stay healthy while working long hours."],["S","Every morning I drink a glass of water and stretch for ten minutes. I eat breakfast at home, usually oatmeal with fruit."],["S","At work, I take a short walk every two hours and avoid sugary drinks."],["S","In the evening I cook dinner, mostly vegetables and fish, and I never eat after nine."],["S","I go to bed at ten thirty because sleeping eight hours helps me stay focused."]],
+q:["What is the speaker's name?|Daniel|David|Dennis|Dylan","He stretches for twenty minutes.|False|True","What does he eat for breakfast?|Oatmeal with fruit|Eggs and bacon|Cereal with milk|Toast with jam","How often does he walk at work?|Every two hours|Every hour|Once a day|Every four hours","He drinks sugary drinks at work.|False|True","What does he cook for dinner?|Vegetables and fish|Pasta and meat|Pizza|Rice and chicken","He never eats after nine.|True|False","What time does he go to bed?|Ten thirty|Nine|Eleven|Midnight","How many hours does he sleep?|Eight|Six|Seven|Nine","Why does he sleep eight hours?|It helps him stay focused|He has no work|He is tired of walking|His doctor forced him"]}];
+
+var $=function(i){return document.getElementById(i)};
+var sh=function(a){return a.slice().sort(function(){return Math.random()-.5})};
+var norm=function(s){return s.toLowerCase().replace(/[^a-z0-9' ]/g,'').split(/\s+/).filter(Boolean)};
+var tmr=null;
+var css=document.createElement('style');
+css.textContent="body{margin:0;font-family:sans-serif;background:#f3f5f9;color:#222}#a{padding:14px;max-width:640px;margin:auto}h2{margin:6px 0 12px}.b{display:block;width:100%;padding:14px;margin:8px 0;border:0;border-radius:10px;background:#2563eb;color:#fff;font-size:16px;text-align:left}.b.g{background:#e5e7eb;color:#222}.c{background:#fff;border-radius:10px;padding:12px;margin:8px 0;box-shadow:0 1px 3px #0002}.ok{color:#16a34a;font-weight:bold}.no{color:#dc2626;font-weight:bold}.o{display:block;width:100%;text-align:left;padding:11px;margin:5px 0;border:1px solid #ccc;border-radius:8px;background:#fff;font-size:15px}.o.s{background:#dbeafe;border-color:#2563eb}.m{width:56px;height:56px;border-radius:50%;border:0;background:#dc2626;font-size:26px}.gr{color:#9ca3af;font-size:17px;line-height:1.6}textarea{width:100%;height:110px;font-size:16px;box-sizing:border-box}.u{padding:9px 12px;margin:6px 0 6px 40px;background:#2563eb;color:#fff;border-radius:12px}.cu{padding:9px 12px;margin:6px 40px 6px 0;background:#e5e7eb;border-radius:12px}.t{float:right;font-weight:bold;color:#dc2626}";
+document.head.appendChild(css);
+var A=document.createElement('div');A.id='a';document.body.appendChild(A);
+function show(h){clearInterval(tmr);A.innerHTML=h}
+function home(){show("<h2>English Test</h2><button class='b g' onclick=T.mic(this)>&#127908; Enable microphone</button><button class=b onclick=T.sec(0)>1. Listen and repeat</button><button class=b onclick=T.sec(1)>2. Grammar check</button><button class=b onclick=T.sec(4)>3. Listen to conversation</button><button class=b onclick=T.sec(2)>4. Typing speed</button><button class=b onclick=T.sec(3)>5. Practice (customer service)</button>")}
+var NAMES=["Listen and repeat","Grammar check","Typing speed","Practice","Listen to conversation"];
+var T={home:home,
+sec:function(k){var h="<button class='b g' onclick=T.home()>&larr; Menu</button><h2>"+NAMES[k]+"</h2>";var D=[LISTEN,GRAM,TYPE,PRAC,CONV][k];for(var i=0;i<D.length;i++)h+="<button class=b onclick=T.go("+k+","+i+")>Section "+(i+1)+"</button>";show(h)},
+go:function(k,i){[L,G,Ty,P,C][k](i)}};
+window.T=T;
+
+// ---- Speech bridge (Sketchware) ----
+var cb=null,wv=/; wv\)/.test(navigator.userAgent);
+window.onSTT=function(t){if(cb)cb(String(t))};
+function listen(f){cb=f;
+ if(window.Android&&Android.startSTT){Android.startSTT();return}
+ var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(SR&&!wv){var r=new SR();r.lang='en-US';r.onresult=function(e){f(e.results[0][0].transcript)};r.onerror=function(){f('')};r.start();return}
+ if(!wv){alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');f('');return}
+ location.href='http://stt.local/start'}
+function speak(t){
+ if(window.Android&&Android.speak){Android.speak(t);return}
+ if(window.speechSynthesis){var u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.cancel();speechSynthesis.speak(u)}
+ else location.href='http://stt.local/tts?t='+encodeURIComponent(t)}
+
+// ---- Microphone permission ----
+var micOK=false;
+function mic(b){try{navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){st.getTracks().forEach(function(t){t.stop()});micOK=true;if(b)b.innerHTML="&#127908; Microphone enabled &#10003;"}).catch(function(){if(b)b.innerHTML="&#127908; Microphone blocked - allow it in browser settings"})}catch(e){}}
+T.mic=mic;
+window.addEventListener('click',function f(){window.removeEventListener('click',f);if(!wv&&!micOK)mic()});
+
+// ---- 1. Listen and repeat ----
+var LR;
+function L(s){LR={};var h="<button class='b g' onclick=T.sec(0)>&larr; Back</button><h2>Listen &amp; repeat - Section "+(s+1)+"</h2>";
+ LISTEN[s].forEach(function(x,i){h+="<div class=c><div>"+(i+1)+". "+x+"</div><button class='b g' style='width:auto;display:inline-block' onclick=\"T.say("+s+","+i+")\">&#9654; Play audio</button> <button class=m onclick=\"T.rec("+s+","+i+")\">&#127908;</button><div id=r"+i+"></div></div>"});
+ h+="<button class=b onclick=T.lres("+s+")>Show results</button><div id=lr></div>";show(h)}
+T.say=function(s,i){speak(LISTEN[s][i])};
+T.rec=function(s,i){$('r'+i).innerHTML="Listening...";listen(function(t){
+ var ex=norm(LISTEN[s][i]),got=norm(t),n=0,h=ex.map(function(w){var ok=got.indexOf(w)>-1;if(ok)n++;return "<span class="+(ok?'ok':'no')+">"+w+"</span>"}).join(' ');
+ LR[i]=n/ex.length;$('r'+i).innerHTML=h+"<br><small>You said: "+t+" ("+Math.round(LR[i]*100)+"%)</small>"})};
+T.lres=function(s){var ok=0,d=0;for(var i in LR){d++;if(LR[i]>=.8)ok++}
+ $('lr').innerHTML="<div class=c><b>"+ok+" of 12 pronounced correctly</b> ("+d+" attempted)</div>"};
+
+// ---- 2. Grammar ----
+var GQ,GA;
+function G(s){GQ=GRAM[s].map(function(r){var p=r.split('|');return{q:p[0],a:p[1],o:sh(p.slice(1))}});GA={};
+ var h="<button class='b g' onclick=T.sec(1)>&larr; Back</button><h2>Grammar - Section "+(s+1)+"</h2>";
+ GQ.forEach(function(x,i){h+="<div class=c><div>"+(i+1)+". "+x.q+"</div>";x.o.forEach(function(o,j){h+="<button class=o id=g"+i+"_"+j+" onclick=T.pick("+i+","+j+")>"+o+"</button>"});h+="</div>"});
+ h+="<button class=b onclick=T.gres()>Finish</button><div id=gr></div>";show(h)}
+T.pick=function(i,j){GA[i]=j;GQ[i].o.forEach(function(_,k){$('g'+i+'_'+k).className='o'+(k==j?' s':'')})};
+T.gres=function(){var n=0,h="";GQ.forEach(function(x,i){var ok=x.o[GA[i]]===x.a;if(ok)n++;h+="<div class=c>"+(i+1)+". "+x.q.replace('___','<b class='+(ok?'ok':'no')+'>'+(x.o[GA[i]]||'-')+'</b>')+(ok?'':" &rarr; <span class=ok>"+x.a+"</span>")+"</div>"});
+ $('gr').innerHTML="<div class=c><b>Score: "+n+" / 12</b></div>"+h;window.scrollTo(0,document.body.scrollHeight)};
+
+// ---- 3. Typing ----
+function Ty(s){var txt=TYPE[s];
+ show("<button class='b g' onclick=T.sec(2)>&larr; Back</button><h2>Typing - Section "+(s+1)+"</h2><div class=t id=tm>60</div><div class='c gr' id=tx>"+txt+"</div><textarea id=ti disabled placeholder='Press Start, then type here...'></textarea><button class=b id=sb onclick=T.tstart("+s+")>Start</button><div id=tr></div>")}
+T.tstart=function(s){var txt=TYPE[s],ti=$('ti'),t=60;ti.disabled=false;ti.value='';ti.focus();$('sb').style.display='none';$('tm').innerHTML=t;
+ tmr=setInterval(function(){t--;$('tm').innerHTML=t;if(t<=0){clearInterval(tmr);ti.disabled=true;
+  var a=norm(txt),b=norm(ti.value),n=0;b.forEach(function(w,i){if(w===a[i])n++});
+  $('tr').innerHTML="<div class=c><b>"+n+" WPM</b><br>Words typed: "+b.length+"<br>Correct words: "+n+"<br>Accuracy: "+(b.length?Math.round(n/b.length*100):0)+"%</div><button class=b onclick=T.go(2,"+s+")>Try again</button>"}},1000)};
+
+// ---- 4. Practice ----
+var PS;
+function P(s){var c=PRAC[s];PS={s:s,i:0,ok:0,t:300,done:0};
+ show("<button class='b g' onclick=T.sec(3)>&larr; Back</button><h2>"+c.t+"</h2><div class=t id=pt>5:00</div><button class='b g' onclick=\"var e=$('pol');e.style.display=e.style.display=='none'?'block':'none'\">&#128220; Show policy</button><div class=c id=pol style='display:none'>"+c.p+"</div><div class=c id=ch style='min-height:140px'></div><div id=po></div><div id=pr></div>");
+ tmr=setInterval(function(){PS.t--;var m=Math.floor(PS.t/60),x=PS.t%60;$('pt').innerHTML=m+":"+(x<10?'0':'')+x;if(PS.t<=0)pend(true)},1000);
+ pstep()}
+window.$=$;
+function pstep(){var st=PRAC[PS.s].s[PS.i];$('ch').innerHTML+="<div class=cu>"+st[0]+"</div>";
+ PS.opts=sh([[st[1],st[2],1],[st[3],st[4],0]]);
+ $('po').innerHTML=PS.opts.map(function(o,i){return "<button class=o onclick=T.rep("+i+")>"+o[0]+"</button>"}).join('')}
+T.rep=function(i){if(PS.done)return;var o=PS.opts[i];if(o[2])PS.ok++;
+ $('ch').innerHTML+="<div class=u>"+o[0]+"</div><div class=cu>"+o[1]+"</div>";$('po').innerHTML='';PS.i++;
+ if(PS.i>=PRAC[PS.s].s.length)pend(false);else setTimeout(pstep,700)};
+function pend(timeout){PS.done=1;clearInterval(tmr);var n=PRAC[PS.s].s.length,r=!timeout&&PS.ok>=n-1;$('po').innerHTML='';
+ $('pr').innerHTML="<div class=c><b class="+(r?'ok':'no')+">"+(timeout?"Time is up! Case not resolved.":r?"Case resolved!":"Case not resolved.")+"</b><br>Correct replies: "+PS.ok+" / "+n+"</div><button class=b onclick=T.go(3,"+PS.s+")>Try again</button>"}
+// ---- 5. Listen to conversation ----
+var CS;
+function C(s){var c=CONV[s];CS={s:s,pl:0,A:{}};
+ CS.q=c.q.map(function(r){var p=r.split('|');return{q:p[0],a:p[1],o:p.length==3?['True','False']:sh(p.slice(1))}});
+ var h="<button class='b g' onclick=T.sec(4)>&larr; Back</button><h2>"+c.t+"</h2><div class=c><button class=b id=cp onclick=T.cplay()>&#9654; Play audio (2 plays left)</button></div>";
+ CS.q.forEach(function(x,i){h+="<div class=c><div>"+(i+1)+". "+(x.o[0]=='True'?"True or false: ":"")+x.q+"</div>";x.o.forEach(function(o,j){h+="<button class=o id=c"+i+"_"+j+" onclick=T.cpick("+i+","+j+")>"+o+"</button>"});h+="</div>"});
+ h+="<button class=b onclick=T.cres()>Finish</button><div id=cr></div>";show(h)}
+T.cplay=function(){if(CS.pl>=2)return;CS.pl++;var b=$('cp'),n=2-CS.pl;b.innerHTML=n?"&#9654; Play again (1 left)":"No plays left";if(!n)b.className='b g';
+ var ln=CONV[CS.s].l;
+ if(window.speechSynthesis&&!(window.Android&&Android.speak)){speechSynthesis.cancel();ln.forEach(function(x){var u=new SpeechSynthesisUtterance(x[1]);u.lang='en-US';u.pitch=x[0]=='A'?1.3:x[0]=='B'?.7:1;speechSynthesis.speak(u)})}
+ else speak(ln.map(function(x){return x[1]}).join(' '))};
+T.cpick=function(i,j){CS.A[i]=j;CS.q[i].o.forEach(function(_,k){$('c'+i+'_'+k).className='o'+(k==j?' s':'')})};
+T.cres=function(){var n=0,h="";CS.q.forEach(function(x,i){var ok=x.o[CS.A[i]]===x.a;if(ok)n++;h+="<div class=c>"+(i+1)+". "+x.q+"<br><b class="+(ok?'ok':'no')+">"+(x.o[CS.A[i]]||'-')+"</b>"+(ok?'':" &rarr; <span class=ok>"+x.a+"</span>")+"</div>"});
+ $('cr').innerHTML="<div class=c><b>Score: "+n+" / 10</b></div>"+h;window.scrollTo(0,document.body.scrollHeight)};
+home();
+})();
+
+</script></body></html>
